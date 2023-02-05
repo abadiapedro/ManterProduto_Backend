@@ -50,7 +50,7 @@ public class TipoProdutoController {
         return ResponseEntity.ok(tipoProduto);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<TipoProdutoDto> remover(@PathVariable Long id) {
 
         if(id == null) {

@@ -1,7 +1,7 @@
 package br.com.cardapio.controller;
 
-import br.com.cardapio.dto.ProdutoDto;
-import br.com.cardapio.service.ProdutoService;
+import br.com.cardapio.dto.ClienteDto;
+import br.com.cardapio.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,37 +15,37 @@ import java.net.URI;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/produtos")
-public class ProdutoController {
+@RequestMapping("/clientes")
+public class ClienteController {
 
     @Autowired
-    private ProdutoService produtoService;
+    private ClienteService clienteService;
 
     @GetMapping
-    public Page<ProdutoDto> listar(@PageableDefault(size = 10) Pageable paginacao) {
-        return produtoService.getAllProdutos(paginacao);
+    public Page<ClienteDto> listar(@PageableDefault(size = 10) Pageable paginacao) {
+        return clienteService.getAllClientes(paginacao);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProdutoDto> getProdutoById(@PathVariable Long id) {
+    public ResponseEntity<ClienteDto> getClienteById(@PathVariable Long id) {
 
         if (id == null) {
             return ResponseEntity.badRequest().build();
         }
 
-        ProdutoDto dto = produtoService.getProdutoById(id);
+        ClienteDto dto = clienteService.getClienteById(id);
 
         return ResponseEntity.ok(dto);
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody ProdutoDto dto, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<?> cadastrar(@RequestBody ClienteDto dto, UriComponentsBuilder uriBuilder) {
         URI endereco = null;
 
         try {
-            ProdutoDto produto = produtoService.criarProduto(dto);
-            endereco = uriBuilder.path("/produto/{id}").buildAndExpand(produto.getId()).toUri();
-            return ResponseEntity.created(endereco).body(produto);
+            ClienteDto cliente = clienteService.criarCliente(dto);
+            endereco = uriBuilder.path("/cliente/{id}").buildAndExpand(cliente.getId()).toUri();
+            return ResponseEntity.created(endereco).body(cliente);
         } catch (EntityNotFoundException entityNotFoundException) {
             return ResponseEntity.badRequest().body(entityNotFoundException.getMessage());
         } catch (Exception e) {
@@ -54,13 +54,13 @@ public class ProdutoController {
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody ProdutoDto dto, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<?> update(@RequestBody ClienteDto dto, UriComponentsBuilder uriBuilder) {
         URI endereco = null;
 
         try {
-            ProdutoDto produto = produtoService.updateProduto(dto.getId(), dto);
-            endereco = uriBuilder.path("/produto/{id}").buildAndExpand(produto.getId()).toUri();
-            return ResponseEntity.created(endereco).body(produto);
+            ClienteDto cliente = clienteService.updateCliente(dto.getId(), dto);
+            endereco = uriBuilder.path("/cliente/{id}").buildAndExpand(cliente.getId()).toUri();
+            return ResponseEntity.created(endereco).body(cliente);
         } catch (EntityNotFoundException entityNotFoundException) {
             return ResponseEntity.badRequest().body(entityNotFoundException.getMessage());
         } catch (Exception e) {
@@ -75,7 +75,7 @@ public class ProdutoController {
             return ResponseEntity.badRequest().build();
         }
 
-        produtoService.excluirProduto(id);
+        clienteService.excluirCliente(id);
 
         return ResponseEntity.noContent().build();
     }
