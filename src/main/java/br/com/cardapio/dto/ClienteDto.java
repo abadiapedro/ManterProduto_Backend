@@ -13,7 +13,7 @@ public class ClienteDto {
     private Long id;
     private String razaoSocial;
     private String nomeFantasia;
-    private LocalDate cpfCnpj;
+    private String cpfCnpj;
     private SituacaoCliente situacaoCliente;
     private TipoProdutoDto tipoCliente;
 
